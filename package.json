@@ -1,0 +1,17 @@
+{
+  "name": "pesu_ec_cse_h_p22_healthcare_appointment_and_patient_record_manager_sahasra",
+  "version": "1.0.0",
+  "description": "**Project ID:** P22  \r **Course:** UE23CS341A  \r **Academic Year:** 2025  \r **Semester:** 5th Sem  \r **Campus:** EC  \r **Branch:** CSE  \r **Section:** H  \r **Team:** Sahasra",
+  "main": "index.js",
+"scripts": {
+  "test": "jest --coverage",
+  "lint": "eslint src/"
+},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "eslint": "^9.39.1",
+    "jest": "^30.2.0"
+  }
+}
