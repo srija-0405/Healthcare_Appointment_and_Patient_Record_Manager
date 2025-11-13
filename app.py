@@ -10,6 +10,8 @@ st.set_page_config(page_title="Healthcare Appointment & Record Manager", layout=
 # ======================
 @st.cache_data
 def load_patients():
+    # Loads patient records from CSV file.
+    # Returns a DataFrame with columns: patient_id, name, dob, age, contact, emergency_contact
     try:
         return pd.read_csv("data/demo_data.csv")
     except Exception:
