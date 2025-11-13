@@ -17,6 +17,8 @@ engine = create_engine(DATABASE_URL, echo=False, future=True)
 Base = declarative_base()
 SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, future=True)
 
+# This session function is used by the Medical Records module
+# to fetch EMR data for Access to Medical Records.
 def get_session():
     return SessionLocal()
 

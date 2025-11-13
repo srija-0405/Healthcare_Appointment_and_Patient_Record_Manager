@@ -3,6 +3,9 @@ import pandas as pd
 from datetime import datetime
 from utils.helpers import validate_phone, generate_patient_id, format_date
 
+# Future extension: Patient Health Management dashboard
+# - vitals, medications, history, chronic condition flags
+
 st.set_page_config(page_title="Healthcare Appointment & Record Manager", layout="wide")
 
 # ======================
