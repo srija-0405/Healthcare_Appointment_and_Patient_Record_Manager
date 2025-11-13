@@ -1,1 +1,36 @@
 node_modules
+# Ignore Python cache and environment files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+venv/
+env/
+*.sqlite3
+
+# Ignore Streamlit cache
+.cache/
+.streamlit/
+
+# Ignore data files
+data/*.csv
+data/*.xlsx
+
+# Ignore VS Code settings
+.vscode/
+
+# Ignore node modules (if any JS code)
+node_modules/
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore log files
+*.log
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore temporary files
+*.tmp
