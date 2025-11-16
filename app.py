@@ -2,23 +2,6 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime
 from utils.helpers import validate_phone, generate_patient_id, format_date
-import os
-
-
-
-MEDICAL_CSV = os.path.abspath(os.path.join(os.path.dirname(__file__), "data", "medical_records.csv"))
-
-
-# Create CSV with headers if missing
-if not os.path.exists(MEDICAL_CSV):
-    pd.DataFrame(columns=[
-        "record_id", "patient", "notes", "treatment", "date"
-    ]).to_csv(MEDICAL_CSV, index=False)
-
-
-
-# Future extension: Patient Health Management dashboard
-# - vitals, medications, history, chronic condition flags
 
 st.set_page_config(page_title="Healthcare Appointment & Record Manager", layout="wide")
 
@@ -33,16 +16,6 @@ def load_patients():
         return pd.read_csv("data/demo_data.csv")
     except Exception:
         return pd.DataFrame(columns=["patient_id","name","dob","age","contact","emergency_contact"])
-@st.cache_data
-def load_medical_records():
-    # Auto-create file if missing
-    if not os.path.exists(MEDICAL_CSV):
-        pd.DataFrame(columns=[
-            "record_id", "patient", "notes", "treatment", "date"
-        ]).to_csv(MEDICAL_CSV, index=False)
-
-    return pd.read_csv(MEDICAL_CSV)
-
 
 @st.cache_data
 def load_users():
@@ -176,55 +149,15 @@ else:
 
     elif menu == "EMR" and role in ["Patient", "Medical Staff", "Admin"]:
         st.header("🧾 Electronic Medical Records (EMR)")
-
         pnames = patients["name"].tolist()
-
         if not pnames:
             st.info("No patients available. Register a patient first.")
         else:
-            view_mode = st.toggle("View Medical History")
-
-            if not view_mode:
-            # ----------------------------
-            # CREATE MEDICAL RECORD FORM
-            # ----------------------------
-                patient = st.selectbox("Select Patient", pnames)
-                notes = st.text_area("Diagnosis / Visit Notes")
-                plan = st.text_area("Treatment Plan")
-
-                if st.button("Save EMR Record"):
-                    if not notes.strip() or not plan.strip():
-                        st.error("Notes and treatment plan cannot be empty.")
-                    else:
-                        new_record = pd.DataFrame([{
-                            "record_id": datetime.now().timestamp(),
-                            "patient": patient,
-                            "notes": notes,
-                            "treatment": plan,
-                            "date": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                        }])
-
-                        updated = pd.concat([medical_records, new_record], ignore_index=True)
-                        updated.to_csv(MEDICAL_CSV, index=False)
-
-                        st.success(f"Medical record saved for {patient}")
-                        st.rerun()
-
-            else:
-            # ----------------------------
-            # VIEW MEDICAL RECORDS
-            # ----------------------------
-                st.subheader("📚 Patient Medical History")
-
-                selected = st.selectbox("Select Patient", pnames)
-                history = medical_records[medical_records["patient"] == selected]
-
-                if history.empty:
-                    st.info("No medical records found for this patient.")
-                else:
-                    st.dataframe(history)
-
-
+            patient = st.selectbox("Select Patient", pnames)
+            notes = st.text_area("Visit Notes / Diagnosis")
+            plan = st.text_area("Treatment Plan")
+            if st.button("Save EMR"):
+                st.success(f"EMR saved for {patient} (demo mode)")
 
     elif menu == "Billing" and role == "Admin":
         st.header("💳 Billing")
@@ -243,4 +176,3 @@ else:
         st.header("📊 Reports Dashboard")
         st.metric("Total Patients", len(patients))
         st.write("Charts & detailed data will appear here later.")
-
